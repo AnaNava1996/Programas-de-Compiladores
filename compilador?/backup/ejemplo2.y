@@ -1,11 +1,7 @@
 %{
 #include <stdio.h>
 #include <string.h>
-#include "tabla.h"
-
-Nodo * ini;
-Nodo * cab;
-
+//#include <math.h>
 int yylex(void);
 void yyerror (char *);
 %}
@@ -27,19 +23,8 @@ void yyerror (char *);
 %token <texto> COMA
 %type <texto> exp_coma
 
-%token <texto> INTEGER
-%type <texto> var_int
-%token <texto> CHARACTER
-%type <texto> var_char
-%token <texto> FLOAT
-%type <texto> var_float
-%token <texto> VARIABLE
-%type <texto> variable
-
-
 %left '+''-'
 %left '*''/'
-%left '='
              
 /* Gramática */
 %%
@@ -53,31 +38,12 @@ line:	'\n'
         | exp_decimal '\n'  { printf ("\tresultado: %f\n", $1); }
 	| exp_texto '\n'  { printf ("\tresultado: %s\n", $1); }
 ;
-
-var_int:	INTEGER		{ $$ = $1;};
-
-var_char:	CHARACTER	{ $$ = $1;};
-
-var_float:	FLOAT		{ $$ = $1;};
-
-variable:	VARIABLE	{ $$ = $1;};
-         
+             
 exp_entera:     ENTERO	{ $$ = $1; }
-	| '-' exp_entera		   { $$ = $2 * (-1);  }
 	| exp_entera '+' exp_entera        { $$ = $1 + $3;    }
 	| exp_entera '*' exp_entera        { $$ = $1 * $3;    }
 	| exp_entera '/' exp_entera        { $$ = $1 / $3;    }
 	| exp_entera '-' exp_entera        { $$ = $1 - $3;    }
-	| var_int variable '=' exp_entera  exp_coma 
-					   { $$ = $4;//corrobora que la variable existe
-						if(existe($2,ini)==1){
-							printf("La variable ya existe\n");
-							}
-						else{
-							agregar(0, $2, $4, 0,"", cab,ini);
-							recorrer(ini);}
-						}	
-						
 ;
 exp_decimal:     DECIMAL	{ $$ = $1; }
 	| exp_decimal '+' exp_decimal        { $$ = $1 + $3;    }
@@ -94,19 +60,7 @@ exp_decimal:     DECIMAL	{ $$ = $1; }
 	| exp_entera '*' exp_decimal        { $$ = $1 * $3;    }
 	| exp_entera '/' exp_decimal        { $$ = $1 / $3;    }
 	| exp_entera '-' exp_decimal        { $$ = $1 - $3;    }
-
-	| var_float variable '=' exp_decimal exp_coma 
-					    { $$ = $4;	//corrobora si la variable existe... falta reutilizar
-						if(existe($2,ini)==1){
-							printf("La variable ya existe\n");
-							}
-						else{
-							agregar(1, $2, 0, $4,"", cab,ini);
-							recorrer(ini);}
-}
 ;
-
-
 
 exp_pow:	POTENCIA	{ $$ = $1;};
 
@@ -139,6 +93,7 @@ exp_texto:	TEXTO		{ $$ = $1;}
 					int ini=0;
 					int fin=0;
 					int len1=0;
+					//int aux=0;
 					int len3=0;
 					char *aux;
 
@@ -221,36 +176,14 @@ exp_texto:	TEXTO		{ $$ = $1;}
 						//printf("\n%s\n",aux);
 						$$=aux;
 					}
-	|var_char variable '=' exp_texto exp_coma{ $$ = $4;	//corrobora si la variable existe... falta reutilizar
-						if(existe($2,ini)==1){
-							printf("La variable ya existe\n");
-							}
-						else{
-							agregar(2, $2, 0, 0,$4, cab,ini);
-							recorrer(ini);}
-						
-					}
+
 ;
-
-
-
 
 
         
 %%
 
 int main() {
-	////////////////
-	ini = NULL;
-	ini = malloc(sizeof(Nodo));
-	if (ini == NULL) {
-	    return 1;
-	}
-	ini->nombre = "inicio";
-	ini->next = NULL;
-	cab = ini;
-
-	////////////////
   yyparse();
   return 0;
 }
