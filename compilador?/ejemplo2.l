@@ -41,6 +41,10 @@ VAR [a-zA-Z"_"]([a-zA-Z0-9"_"])*
                 //printf("Signo multiplicacion\n");
                 return (yytext[0]);
                 }
+"%"		{
+                //printf("Signo módulo\n");
+                return (yytext[0]);
+                }
 
 "/"         	{
                 //printf("Signo division\n");
@@ -59,6 +63,11 @@ VAR [a-zA-Z"_"]([a-zA-Z0-9"_"])*
 
 ","         	{
                 //printf("Coma\n");
+                return (yytext[0]);
+                }
+                
+";"         	{
+                //printf("punto y coma\n");
                 return (yytext[0]);
                 }
 
@@ -123,11 +132,6 @@ VAR [a-zA-Z"_"]([a-zA-Z0-9"_"])*
 		return (VARIABLE);
 		}
 
-";"		{
-		//printf("Punto y coma\n");
-                yylval.texto = yytext;
-                return (COMA);
-                }
 
 
 

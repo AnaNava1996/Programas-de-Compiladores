@@ -49,11 +49,10 @@ extern int yydebug;
     DECIMAL = 259,
     TEXTO = 260,
     POTENCIA = 261,
-    COMA = 262,
-    INTEGER = 263,
-    CHARACTER = 264,
-    FLOAT = 265,
-    VARIABLE = 266
+    INTEGER = 262,
+    CHARACTER = 263,
+    FLOAT = 264,
+    VARIABLE = 265
   };
 #endif
 
@@ -68,7 +67,7 @@ union YYSTYPE
 	double decimal;
 	char *texto;
 
-#line 72 "ejemplo2.tab.h" /* yacc.c:1909  */
+#line 71 "ejemplo2.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
