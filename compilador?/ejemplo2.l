@@ -10,7 +10,7 @@ POW ("P"|"p")("O"|"o")("W"|"w")
 
 INT ("I"|"i")("N"|"n")("T"|"t")
 FLOAT ("F"|"f")("L"|"l")("O"|"o")("A"|"a")("T"|"t")
-CHAR ("C"|"c")("H"|"h")("A"|"a")("R"|"r")
+STRING ("S"|"s")("T"|"t")("R"|"r")("I"|"i")("N"|"n")("G"|"g")
 VAR [a-zA-Z"_"]([a-zA-Z0-9"_"])*
 
 %%
@@ -97,27 +97,29 @@ VAR [a-zA-Z"_"]([a-zA-Z0-9"_"])*
 
 {POW}		{
 		//printf("Potencia de caracteres\n");
-                yylval.texto = yytext;
+        yylval.texto = yytext;
 		return (POTENCIA);
 		}
 
-{INT}		{
-		//printf("Integer\n");
-                yylval.texto = yytext;
-		return (INTEGER);
+{INT}	{
+		//printf("Tipo Variable\n");
+        yylval.entero = 0;
+		return (TIPOVAR);
 		}
 
-{FLOAT}		{
-		//printf("Float\n");
-                yylval.texto = yytext;
-		return (FLOAT);
+{FLOAT}	{
+		//printf("Tipo Variable\n");
+        yylval.entero = 1;
+		return (TIPOVAR);
 		}
 
-{CHAR}		{
-		//printf("Character\n");
-                yylval.texto = yytext;
-		return (CHARACTER);
+
+{STRING}	{
+		//printf("Tipo Variable\n");
+        yylval.entero = 2;
+		return (TIPOVAR);
 		}
+
 
 {VAR}		{
 		
@@ -129,7 +131,7 @@ VAR [a-zA-Z"_"]([a-zA-Z0-9"_"])*
 		input[j]='\0';
 		//printf("Variable %s\n",input);
 		yylval.texto = input;
-		return (VARIABLE);
+		return (NOMBRE);
 		}
 
 

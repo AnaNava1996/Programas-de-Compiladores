@@ -43,9 +43,6 @@ int agregar(unsigned char tipo, char * nombre, int t_int, float t_float ,char * 
       ptrNuevo->t_string[tam]='\0';
     }
     ptrAux->next = ptrNuevo;
-
-    //printf("%s\n",ptrAux->nombre);
-    //printf("%s\n",ptrAux->next->nombre);
 }
 
 //Compara si un string es exactamente igual a otro. Retorna un 0 si son iguales.
@@ -67,7 +64,7 @@ int precisionCompare (char *s1, char * s2)
 }
 
 
-int existe(char *nombre,Nodo * ini){
+int existe(char *nombre,Nodo * ini){//la funcion devuelve 1 si la variable se encuentra almacenada en la lista
   Nodo * ptrAux=ini;
   while(ptrAux!=NULL){
     if(precisionCompare(ptrAux->nombre,nombre)==0){
@@ -75,14 +72,86 @@ int existe(char *nombre,Nodo * ini){
       break;
     }
     else{
-      //printf("%s\n", ptrAux->nombre);
       ptrAux=ptrAux->next;
     }
   }
 }
 
+void sobreescribirValor(char * nombre,int varInt, float varFloat , char * varString, Nodo * ini){//esta funcion sobreescribe el valor
+  Nodo * ptrAux=ini;
+  while(ptrAux!=NULL){
+    if(precisionCompare(ptrAux->nombre,nombre)==0){
+      *ptrAux->t_int=varInt;
+      *ptrAux->t_float=varFloat;
+      ptrAux->t_string=varString;
+      break;
+    }
+    else{
+      ptrAux=ptrAux->next;}
+  }
+    printf("\n");
+}
 
-void recorrer(Nodo * ini){
+int tipovar(char * nombre, Nodo * ini){//esta funcion recibe el nombre de la variable, checa que exista y devuelve su tipo 0,1,2
+  Nodo * ptrAux=ini;
+  while(ptrAux!=NULL){
+    if(precisionCompare(ptrAux->nombre,nombre)==0){//Se asume que la variable ya existe
+      return ptrAux->tipo;}
+    else{
+      ptrAux=ptrAux->next;}
+  }
+}
+
+int retornaInt(char * nombre, Nodo * ini){//esta funcion recibe el nombre de la variable, checa que exista y devuelve su valor entero
+  Nodo * ptrAux=ini;
+  while(ptrAux!=NULL){
+    if(precisionCompare(ptrAux->nombre,nombre)==0){
+      return *ptrAux->t_int;}
+    else{
+      ptrAux=ptrAux->next;}
+  }
+}
+
+float retornaFloat(char * nombre, Nodo * ini){//esta funcion recibe el nombre de la variable, checa que exista y devuelve su valor flotante
+  Nodo * ptrAux=ini;
+  while(ptrAux!=NULL){
+    if(precisionCompare(ptrAux->nombre,nombre)==0){
+      return *ptrAux->t_float;}
+    else{
+      ptrAux=ptrAux->next;}
+  }
+}
+
+char * retornaString(char * nombre, Nodo * ini){//esta funcion recibe el nombre de la variable, checa que exista y devuelve su cadena
+  Nodo * ptrAux=ini;
+  while(ptrAux!=NULL){
+    if(precisionCompare(ptrAux->nombre,nombre)==0){
+      return ptrAux->t_string;}
+    else{
+      ptrAux=ptrAux->next;}
+  }
+}
+
+void imprimeValores(char * nombre, Nodo * ini){//pues eso... imprime valores
+  Nodo * ptrAux=ini;
+  while(ptrAux!=NULL){
+    if(precisionCompare(ptrAux->nombre,nombre)==0){
+      printf("tipo: %d\n",ptrAux->tipo);
+      printf("nombre: %s\n",ptrAux->nombre);
+      printf("int: %d\n",*ptrAux->t_int);
+      printf("float: %f\n",*ptrAux->t_float);
+      printf("string: %s\n",ptrAux->t_string);
+      break;
+    }
+    else{
+      ptrAux=ptrAux->next;
+    }
+  }
+
+}
+
+void recorrer(Nodo * ini){//esta función imprime la lista completa
+  printf("\tLista de variables-->  ");
   Nodo * ptrAux=ini;
   while(ptrAux!=NULL){
     printf("%s\t",ptrAux->nombre);
@@ -90,7 +159,8 @@ void recorrer(Nodo * ini){
     printf("\n");
 }
 
-char* powString(char *a,int b){
+
+char* powString(char *a,int b){//función potencia de cadenas
   int p=0,len=0,q=0;
   while(a[len]!='\0'){
     len++;}
@@ -124,7 +194,7 @@ char* powString(char *a,int b){
 }
 
 
-char * sumaString(char * a,char* b){
+char * sumaString(char * a,char* b){//funcón suma de cadenas
   int len1=0,len3=0;
   while(a[len1]!='\0'){
     len1++;}
@@ -144,7 +214,7 @@ char * sumaString(char * a,char* b){
 return aux;
 }
 
-char * restaString(char * a,char * b){
+char * restaString(char * a,char * b){//función resta de cadenas
   int p=0;
   int k=0;
   int ini=0;
@@ -152,19 +222,19 @@ char * restaString(char * a,char * b){
   int len1=0;
   int len3=0;
   char *aux;
-  while(a[len1]!='\0'){
+  while(a[len1]!='\0'){//mido el largo de la primera cadena
     len1++;}
-  while(b[len3]!='\0'){
+  while(b[len3]!='\0'){//el lardo de la segunda
     len3++;}
   if(len3>len1){
-    printf("\nerror, resta no valida\n\n");
+    printf("\nerror, resta no valida\n\n");//la cadena que resta es más larga que la primera
    }
   else{
     aux = malloc(sizeof(char)*(len1+1));
     for(int i=0;a[i]!='\0';i++){
       if(a[i]==b[0]){
-        ini=i;
-        fin=i;
+        ini=i;//desde donde salto
+        fin=i;//hasta donde salto
         for(int j=1;b[j]!='\0';j++){
           if(b[j]==a[i+j]){
             fin++;}
@@ -189,76 +259,37 @@ char * restaString(char * a,char * b){
 }
 
 
+double powInt(int var1 , int var2){//función potencia de entero
+  double cosa=1;
+  double pot=var2;
+  if(pot==0){
+    return 1;
+  }
+  else{
+    if(pot<0)  {pot=(-1)*pot;}//si la potencia es negativa
+    for(int i=0; i<pot ; i++){
+      cosa=cosa*var1;
+    }
+    if(var2>0)  {return cosa;}
+    else        {return (1/cosa);}
+  }
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-| exp_pow '(' exp_texto ',' exp_entera ')' ';'	{
-          int p=0,len=0,q=0;
-          while($3[len]!='\0'){
-            len++;}
-          char *aux2 = malloc(sizeof(char)*(len+1));
-          char *aux;
-
-          if($5<0){
-            aux = malloc(sizeof(char)*(len*(-1*$5)+1));
-            for(int j=len-1 ; j>=0 ; j--){
-              //printf("%c",$3[j]);
-              aux2[p++]=$3[j];
-            }
-            //printf("\n%s\n",aux2);
-            //printf("\n%d\n",p);
-            aux2[p]='\0';
-
-            for(int i=$5 ; i<0 ; i++){
-              //printf("\n%s\n",aux2);
-              for(int j=0 ; aux2[j]!='\0' ; j++){
-                //printf("%c",aux[q]);
-                aux[q++]=aux2[j];
-
-              }
-            }
-            aux[q]='\0';
-            printf("%s\n",aux);
-          }
-
-          else{
-            aux = malloc(sizeof(char)*(len*($5)+1));
-            for(int i=0 ; i<$5 ; i++ ){
-              for(int j=0 ; $3[j]!='\0' ; j++){
-                aux[p++]=$3[j];
-              }
-            }
-            aux[p]='\0';
-          }
-          //printf("\n%s\n",aux);
-          $$=aux;
-        }
-
-*/
-
-
-
-
-
-
-
-
-
-
-
+double powFloat(float var1 , int var2){//función potencia de double
+  double cosa=1;
+  double pot=var2;
+  if(var2==0){
+    return 1;
+  }
+  else{
+    if(pot<0)  {pot=(-1)*pot;}//si la potencia es negativa
+    for(int i=0; i<pot ; i++){
+      cosa=cosa*var1;
+    }
+    if(var2>0)  {return cosa;}
+    else        {return (1/cosa);}
+  }
+}
 
 
 

@@ -49,10 +49,8 @@ extern int yydebug;
     DECIMAL = 259,
     TEXTO = 260,
     POTENCIA = 261,
-    INTEGER = 262,
-    CHARACTER = 263,
-    FLOAT = 264,
-    VARIABLE = 265
+    TIPOVAR = 262,
+    NOMBRE = 263
   };
 #endif
 
@@ -66,8 +64,9 @@ union YYSTYPE
 	int entero;
 	double decimal;
 	char *texto;
+	//struct nodo *nodito;
 
-#line 71 "ejemplo2.tab.h" /* yacc.c:1909  */
+#line 70 "ejemplo2.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

@@ -113,10 +113,8 @@ extern int yydebug;
     DECIMAL = 259,
     TEXTO = 260,
     POTENCIA = 261,
-    INTEGER = 262,
-    CHARACTER = 263,
-    FLOAT = 264,
-    VARIABLE = 265
+    TIPOVAR = 262,
+    NOMBRE = 263
   };
 #endif
 
@@ -130,8 +128,9 @@ union YYSTYPE
 	int entero;
 	double decimal;
 	char *texto;
+	//struct nodo *nodito;
 
-#line 135 "ejemplo2.tab.c" /* yacc.c:355  */
+#line 134 "ejemplo2.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -148,7 +147,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 152 "ejemplo2.tab.c" /* yacc.c:358  */
+#line 151 "ejemplo2.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -390,21 +389,21 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   102
+#define YYLAST   358
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  22
+#define YYNTOKENS  20
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  11
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  39
+#define YYNRULES  96
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  81
+#define YYNSTATES  208
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   265
+#define YYMAXUTOK   263
 
 #define YYTRANSLATE(YYX)                                                \
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -414,12 +413,12 @@ union yyalloc
 static const yytype_uint8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-      18,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+      16,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,    15,     2,     2,
-      19,    21,    13,    11,    20,    12,     2,    14,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,    17,
-       2,    16,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,    13,     2,     2,
+      17,    19,    11,     9,    18,    10,     2,    12,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,    15,
+       2,    14,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -439,17 +438,23 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10
+       5,     6,     7,     8
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_uint16 yyrline[] =
 {
-       0,    46,    46,    47,    50,    51,    52,    53,    54,    57,
-      59,    61,    63,    65,    66,    67,    68,    69,    70,    71,
-      82,    83,    84,    85,    86,    88,    89,    90,    91,    93,
-      94,    95,    96,    98,   111,   115,   116,   120,   124,   128
+       0,    47,    47,    48,    51,    52,    53,    54,    55,    56,
+      57,    61,    62,    63,    64,    65,    66,    67,    68,    70,
+      72,    77,    78,    79,    80,    81,    82,    84,    85,    86,
+      87,    89,    90,    91,    92,    94,    98,   102,   106,   110,
+     115,   119,   123,   127,   131,   136,   140,   144,   148,   152,
+     157,   161,   165,   169,   173,   178,   181,   187,   190,   191,
+     195,   199,   202,   203,   204,   205,   206,   207,   208,   209,
+     210,   211,   212,   213,   214,   215,   216,   217,   218,   219,
+     220,   221,   223,   225,   227,   229,   231,   235,   243,   245,
+     248,   279,   306,   333,   364,   375,   386
 };
 #endif
 
@@ -459,10 +464,10 @@ static const yytype_uint8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "ENTERO", "DECIMAL", "TEXTO", "POTENCIA",
-  "INTEGER", "CHARACTER", "FLOAT", "VARIABLE", "'+'", "'-'", "'*'", "'/'",
-  "'%'", "'='", "';'", "'\\n'", "'('", "','", "')'", "$accept", "input",
-  "line", "var_int", "var_char", "var_float", "variable", "exp_entera",
-  "exp_decimal", "exp_pow", "exp_texto", YY_NULLPTR
+  "TIPOVAR", "NOMBRE", "'+'", "'-'", "'*'", "'/'", "'%'", "'='", "';'",
+  "'\\n'", "'('", "','", "')'", "$accept", "input", "line", "exp_entera",
+  "exp_decimal", "exp_pow", "exp_texto", "tipo_var", "nombre_var",
+  "declaracion_variable", "sobreescribir_variable", YY_NULLPTR
 };
 #endif
 
@@ -471,16 +476,15 @@ static const char *const yytname[] =
    (internal) symbol number NUM (which must be that of a token).  */
 static const yytype_uint16 yytoknum[] =
 {
-       0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,    43,    45,    42,    47,    37,    61,    59,    10,    40,
-      44,    41
+       0,   256,   257,   258,   259,   260,   261,   262,   263,    43,
+      45,    42,    47,    37,    61,    59,    10,    40,    44,    41
 };
 # endif
 
-#define YYPACT_NINF -23
+#define YYPACT_NINF -16
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-23)))
+  (!!((Yystate) == (-16)))
 
 #define YYTABLE_NINF -1
 
@@ -489,17 +493,29 @@ static const yytype_uint16 yytoknum[] =
 
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
      STATE-NUM.  */
-static const yytype_int8 yypact[] =
+static const yytype_int16 yypact[] =
 {
-     -23,    37,   -23,     2,   -23,   -23,   -23,   -23,   -23,   -23,
-     -23,    68,   -23,   -23,    29,    29,    29,    70,    77,    35,
-      -8,   -23,   -12,   -23,    40,    43,    46,    54,    54,    54,
-      54,    47,    54,    54,    54,    54,    55,    94,    94,    94,
-      56,    68,    68,    68,    68,    68,    94,    54,     1,    34,
-       1,    34,   -23,   -23,   -23,   -23,   -23,     1,    34,     1,
-      34,   -23,   -23,   -23,   -23,   -23,    15,   -23,   -23,   -23,
-     -12,   -12,   -23,   -23,   -23,   -23,    84,   -23,    68,    39,
-     -23
+     -16,     5,   -16,   -15,   -16,   -16,   -16,   -16,   -16,   -16,
+     296,   -16,   -16,   298,   305,    -3,   312,    -1,   319,    12,
+      27,   -16,    -9,    23,    26,   325,   281,   281,   281,   281,
+     281,    49,   281,   281,   281,   281,   281,    56,   281,   281,
+     281,   296,   296,   296,    59,    62,   281,   281,   296,   296,
+      71,   281,    66,    67,   296,   296,   296,   296,    71,   296,
+     296,   296,   296,   296,   296,   296,    50,   153,   159,   179,
+      50,   153,   159,   179,   -16,   -16,   -16,   -16,   -16,   -16,
+     -16,   -16,   -16,   330,   -16,   -16,   -16,    50,   153,   159,
+     179,    50,   153,   159,   179,   -16,   -16,   -16,   -16,   -16,
+     -16,   -16,   -16,   335,   -16,   340,   -16,   139,   250,   260,
+     270,    50,   153,   159,   179,    50,   153,   159,   179,   -16,
+     -16,   -16,   -16,   -16,   -16,   -16,   281,    50,   153,   159,
+     179,    50,   153,   159,   179,   -16,   -16,   -16,   -16,   -16,
+     -16,    71,   -16,   -16,   335,   330,   345,   -16,   -16,    -9,
+      23,   179,    -9,    23,   179,   -16,   -16,   -16,   -16,   -16,
+     -16,   -16,   -16,    -9,    23,   179,    -9,    23,   179,   -16,
+     -16,   -16,   -16,   -16,   -16,   285,   169,    -9,    23,   179,
+      -9,    23,   179,    71,    71,    71,    71,   335,   330,   345,
+     226,    65,    71,    71,    71,    71,    47,    58,    75,   150,
+     226,   226,   -16,   -16,   -16,   -16,   -16,   -16
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -507,28 +523,40 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       2,     0,     1,     0,    13,    20,    35,    34,     9,    10,
-      11,     0,     4,     3,     0,     0,     0,     0,     0,     0,
-       0,     8,    14,    12,     0,     0,     0,     0,     0,     0,
+       2,     0,     1,     0,    11,    21,    58,    57,    88,    89,
+       0,     4,     3,     0,     0,     0,     0,     0,     0,     0,
+       0,    10,    12,    22,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,    15,    29,
-      18,    32,    16,    30,    17,    31,     5,    25,    21,    28,
-      24,    26,    22,    27,    23,     6,     0,    36,    37,     7,
-      15,    18,    16,    17,    19,    39,     0,    33,     0,     0,
-      38
+       0,     0,     0,     0,     0,    93,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,    13,    31,    62,    38,
+      16,    34,    66,    43,    14,    32,    70,    53,    15,    33,
+      74,    48,    17,     0,    78,    19,     5,    27,    23,    63,
+      36,    30,    26,    67,    41,    28,    24,    71,    51,    29,
+      25,    75,    46,     0,    79,     0,     6,     0,     0,     0,
+       0,    64,    65,    59,    82,    68,    69,    60,    84,    72,
+      73,    76,    77,    80,    81,     7,     0,    37,    35,    83,
+      39,    42,    40,    85,    44,    52,    50,    54,    47,    45,
+      49,     0,    18,    20,    94,    95,    96,     8,     9,    13,
+      31,    38,    16,    34,    43,    14,    32,    53,    15,    33,
+      48,    17,    19,    27,    23,    36,    30,    26,    41,    28,
+      24,    51,    29,    25,    46,     0,     0,    37,    35,    39,
+      42,    40,    44,     0,     0,     0,     0,    90,    91,    92,
+      12,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+      13,    16,    14,    15,    55,    56,    61,    86
 };
 
   /* YYPGOTO[NTERM-NUM].  */
-static const yytype_int8 yypgoto[] =
+static const yytype_int16 yypgoto[] =
 {
-     -23,   -23,   -23,   -23,   -23,   -23,    13,   -11,   -22,   -23,
-      31
+     -16,   -16,   -16,   -10,   167,   193,   107,   -16,    63,   -16,
+     -16
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
-static const yytype_int8 yydefgoto[] =
+static const yytype_int16 yydefgoto[] =
 {
-      -1,     1,    13,    14,    15,    16,    24,    17,    18,    19,
+      -1,     1,    12,    13,    83,    15,    16,    17,   191,    19,
       20
 };
 
@@ -537,65 +565,139 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-      22,    43,    44,    38,    39,    49,    51,    53,    55,    40,
-      58,    60,    62,    64,    29,    30,    48,    50,    52,    54,
-      21,    57,    59,    61,    63,    77,    38,    39,    25,    26,
-      70,    71,    72,    73,    74,    78,    76,     2,     3,    23,
-       4,     5,     6,     7,     8,     9,    10,    34,    35,    11,
-      41,    42,    43,    44,    37,    12,    45,     4,     5,    46,
-      80,     8,    47,    10,     0,    56,    11,    79,    66,    67,
-      68,     4,     0,    65,    69,     8,     0,    75,     0,     0,
-      11,    27,    28,    29,    30,     0,     0,    31,    32,    33,
-      34,    35,     0,     0,    36,    27,    28,    29,    30,     6,
-       7,     0,     9
+      22,    21,    56,    57,    58,     2,     3,     9,     4,     5,
+       6,     7,     8,     9,    38,    10,    66,    70,    74,    78,
+      82,    11,    87,    91,    95,    99,   103,    52,   107,   111,
+     115,   119,   121,   123,    61,    62,   127,   131,   135,   138,
+     142,   144,    53,    63,   149,   152,   155,   158,   161,   163,
+     166,   169,   172,   175,   177,   180,   192,   193,   194,   195,
+      58,    28,    29,    30,    18,    86,   204,   192,   193,   194,
+     195,    58,   106,    25,     4,   125,   126,   205,    50,     9,
+      45,   141,   147,   148,   192,   193,   194,   195,    58,    69,
+      73,    77,    81,    85,   206,    90,    94,    98,   102,   105,
+       0,   110,   114,   118,    25,    25,    25,     0,     0,   130,
+     134,   137,   140,   143,   105,     0,   187,   151,   154,   157,
+     160,   162,   165,   168,   171,   174,    25,   179,   182,     0,
+       0,   190,     0,    68,    72,    76,    80,    84,     0,    89,
+      93,    97,   101,   104,     0,   109,   113,   117,    26,    27,
+      28,    29,    30,   129,   133,     0,     0,   183,   146,   192,
+     193,   194,   195,    58,    34,    35,    36,     0,    14,   207,
+      41,    42,    43,   196,   197,   198,   199,    23,    59,    60,
+      61,    62,   200,   201,   202,   203,     0,   184,     0,   105,
+      48,    49,    50,    67,    71,    75,    79,     0,     0,    88,
+      92,    96,   100,    24,     0,   108,   112,   116,   120,   122,
+     124,     0,     0,   128,   132,   136,   139,     0,   145,     0,
+       0,   150,   153,   156,   159,     0,   164,   167,   170,   173,
+     176,   178,   181,   189,    24,    24,    24,   194,   195,    58,
+       0,    24,    24,     0,     0,     0,     0,    24,    24,    24,
+      24,     0,    24,    24,    24,    24,    24,    24,    24,    32,
+      33,    34,    35,    36,     0,     0,     0,     0,   184,    39,
+      40,    41,    42,    43,     0,     0,     0,     0,   185,    46,
+      47,    48,    49,    50,     4,     5,     6,     7,   186,     9,
+       0,    10,     0,   188,    54,    55,    56,    57,    58,     4,
+       5,     0,     7,   183,     9,     0,    10,    26,    27,    28,
+      29,    30,     0,    31,    32,    33,    34,    35,    36,     0,
+      37,    39,    40,    41,    42,    43,     0,    44,    46,    47,
+      48,    49,    50,    51,    64,    65,    48,    49,    50,    32,
+      33,    34,    35,    36,    26,    27,    28,    29,    30,    46,
+      47,    48,    49,    50,    39,    40,    41,    42,    43
 };
 
-static const yytype_int8 yycheck[] =
+static const yytype_int16 yycheck[] =
 {
-      11,    13,    14,    11,    12,    27,    28,    29,    30,    17,
-      32,    33,    34,    35,    13,    14,    27,    28,    29,    30,
-      18,    32,    33,    34,    35,    47,    11,    12,    15,    16,
-      41,    42,    43,    44,    45,    20,    47,     0,     1,    10,
-       3,     4,     5,     6,     7,     8,     9,    13,    14,    12,
-      11,    12,    13,    14,    19,    18,    16,     3,     4,    16,
-      21,     7,    16,     9,    -1,    18,    12,    78,    37,    38,
-      39,     3,    -1,    18,    18,     7,    -1,    46,    -1,    -1,
-      12,    11,    12,    13,    14,    -1,    -1,    17,    11,    12,
-      13,    14,    -1,    -1,    17,    11,    12,    13,    14,     5,
-       6,    -1,     8
+      10,    16,    11,    12,    13,     0,     1,     8,     3,     4,
+       5,     6,     7,     8,    17,    10,    26,    27,    28,    29,
+      30,    16,    32,    33,    34,    35,    36,    15,    38,    39,
+      40,    41,    42,    43,    11,    12,    46,    47,    48,    49,
+      50,    51,    15,    17,    54,    55,    56,    57,    58,    59,
+      60,    61,    62,    63,    64,    65,     9,    10,    11,    12,
+      13,    11,    12,    13,     1,    16,    19,     9,    10,    11,
+      12,    13,    16,    10,     3,    16,    14,    19,    13,     8,
+      17,    10,    16,    16,     9,    10,    11,    12,    13,    26,
+      27,    28,    29,    30,    19,    32,    33,    34,    35,    36,
+      -1,    38,    39,    40,    41,    42,    43,    -1,    -1,    46,
+      47,    48,    49,    50,    51,    -1,   126,    54,    55,    56,
+      57,    58,    59,    60,    61,    62,    63,    64,    65,    -1,
+      -1,   141,    -1,    26,    27,    28,    29,    30,    -1,    32,
+      33,    34,    35,    36,    -1,    38,    39,    40,     9,    10,
+      11,    12,    13,    46,    47,    -1,    -1,    18,    51,     9,
+      10,    11,    12,    13,    11,    12,    13,    -1,     1,    19,
+      11,    12,    13,   183,   184,   185,   186,    10,     9,    10,
+      11,    12,   192,   193,   194,   195,    -1,    18,    -1,   126,
+      11,    12,    13,    26,    27,    28,    29,    -1,    -1,    32,
+      33,    34,    35,    10,    -1,    38,    39,    40,    41,    42,
+      43,    -1,    -1,    46,    47,    48,    49,    -1,    51,    -1,
+      -1,    54,    55,    56,    57,    -1,    59,    60,    61,    62,
+      63,    64,    65,   126,    41,    42,    43,    11,    12,    13,
+      -1,    48,    49,    -1,    -1,    -1,    -1,    54,    55,    56,
+      57,    -1,    59,    60,    61,    62,    63,    64,    65,     9,
+      10,    11,    12,    13,    -1,    -1,    -1,    -1,    18,     9,
+      10,    11,    12,    13,    -1,    -1,    -1,    -1,    18,     9,
+      10,    11,    12,    13,     3,     4,     5,     6,    18,     8,
+      -1,    10,    -1,   126,     9,    10,    11,    12,    13,     3,
+       4,    -1,     6,    18,     8,    -1,    10,     9,    10,    11,
+      12,    13,    -1,    15,     9,    10,    11,    12,    13,    -1,
+      15,     9,    10,    11,    12,    13,    -1,    15,     9,    10,
+      11,    12,    13,    14,     9,    10,    11,    12,    13,     9,
+      10,    11,    12,    13,     9,    10,    11,    12,    13,     9,
+      10,    11,    12,    13,     9,    10,    11,    12,    13
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    23,     0,     1,     3,     4,     5,     6,     7,     8,
-       9,    12,    18,    24,    25,    26,    27,    29,    30,    31,
-      32,    18,    29,    10,    28,    28,    28,    11,    12,    13,
-      14,    17,    11,    12,    13,    14,    17,    19,    11,    12,
-      17,    11,    12,    13,    14,    16,    16,    16,    29,    30,
-      29,    30,    29,    30,    29,    30,    18,    29,    30,    29,
-      30,    29,    30,    29,    30,    18,    32,    32,    32,    18,
-      29,    29,    29,    29,    29,    32,    29,    30,    20,    29,
-      21
+       0,    21,     0,     1,     3,     4,     5,     6,     7,     8,
+      10,    16,    22,    23,    24,    25,    26,    27,    28,    29,
+      30,    16,    23,    24,    25,    28,     9,    10,    11,    12,
+      13,    15,     9,    10,    11,    12,    13,    15,    17,     9,
+      10,    11,    12,    13,    15,    28,     9,    10,    11,    12,
+      13,    14,    15,    15,     9,    10,    11,    12,    13,     9,
+      10,    11,    12,    17,     9,    10,    23,    24,    26,    28,
+      23,    24,    26,    28,    23,    24,    26,    28,    23,    24,
+      26,    28,    23,    24,    26,    28,    16,    23,    24,    26,
+      28,    23,    24,    26,    28,    23,    24,    26,    28,    23,
+      24,    26,    28,    23,    26,    28,    16,    23,    24,    26,
+      28,    23,    24,    26,    28,    23,    24,    26,    28,    23,
+      24,    23,    24,    23,    24,    16,    14,    23,    24,    26,
+      28,    23,    24,    26,    28,    23,    24,    28,    23,    24,
+      28,    10,    23,    28,    23,    24,    26,    16,    16,    23,
+      24,    28,    23,    24,    28,    23,    24,    28,    23,    24,
+      28,    23,    28,    23,    24,    28,    23,    24,    28,    23,
+      24,    28,    23,    24,    28,    23,    24,    23,    24,    28,
+      23,    24,    28,    18,    18,    18,    18,    23,    24,    26,
+      23,    28,     9,    10,    11,    12,    23,    23,    23,    23,
+      23,    23,    23,    23,    19,    19,    19,    19
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    22,    23,    23,    24,    24,    24,    24,    24,    25,
-      26,    27,    28,    29,    29,    29,    29,    29,    29,    29,
-      30,    30,    30,    30,    30,    30,    30,    30,    30,    30,
-      30,    30,    30,    30,    31,    32,    32,    32,    32,    32
+       0,    20,    21,    21,    22,    22,    22,    22,    22,    22,
+      22,    23,    23,    23,    23,    23,    23,    23,    23,    23,
+      23,    24,    24,    24,    24,    24,    24,    24,    24,    24,
+      24,    24,    24,    24,    24,    24,    24,    24,    24,    24,
+      24,    24,    24,    24,    24,    24,    24,    24,    24,    24,
+      24,    24,    24,    24,    24,    24,    24,    25,    26,    26,
+      26,    26,    26,    26,    26,    26,    26,    26,    26,    26,
+      26,    26,    26,    26,    26,    26,    26,    26,    26,    26,
+      26,    26,    26,    26,    26,    26,    26,    26,    27,    28,
+      29,    29,    29,    29,    30,    30,    30
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     0,     2,     1,     3,     3,     3,     2,     1,
-       1,     1,     1,     1,     2,     3,     3,     3,     3,     4,
-       1,     3,     3,     3,     3,     3,     3,     3,     3,     3,
-       3,     3,     3,     4,     1,     1,     3,     3,     6,     4
+       0,     2,     0,     2,     1,     3,     3,     3,     3,     3,
+       2,     1,     2,     3,     3,     3,     3,     3,     3,     3,
+       3,     1,     2,     3,     3,     3,     3,     3,     3,     3,
+       3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
+       3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
+       3,     3,     3,     3,     3,     6,     6,     1,     1,     3,
+       3,     6,     3,     3,     3,     3,     3,     3,     3,     3,
+       3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
+       3,     3,     3,     3,     3,     3,     6,     3,     1,     1,
+       4,     4,     4,     2,     3,     3,     3
 };
 
 
@@ -1271,245 +1373,771 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 5:
+        case 4:
 #line 51 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: falta un ;");}
+#line 1380 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 5:
+#line 52 "ejemplo2.y" /* yacc.c:1646  */
     { printf ("\tresultado: %d\n", (yyvsp[-2].entero)); }
-#line 1278 "ejemplo2.tab.c" /* yacc.c:1646  */
+#line 1386 "ejemplo2.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 52 "ejemplo2.y" /* yacc.c:1646  */
+#line 53 "ejemplo2.y" /* yacc.c:1646  */
     { printf ("\tresultado: %f\n", (yyvsp[-2].decimal)); }
-#line 1284 "ejemplo2.tab.c" /* yacc.c:1646  */
+#line 1392 "ejemplo2.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 53 "ejemplo2.y" /* yacc.c:1646  */
+#line 54 "ejemplo2.y" /* yacc.c:1646  */
     { printf ("\tresultado: %s\n", (yyvsp[-2].texto)); }
-#line 1290 "ejemplo2.tab.c" /* yacc.c:1646  */
+#line 1398 "ejemplo2.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 54 "ejemplo2.y" /* yacc.c:1646  */
-    { yyerrok;                  }
-#line 1296 "ejemplo2.tab.c" /* yacc.c:1646  */
+#line 55 "ejemplo2.y" /* yacc.c:1646  */
+    {/*{ printf("nueva variable:%s \n",$1);*/ printf("\n");}
+#line 1404 "ejemplo2.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 57 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.texto) = (yyvsp[0].texto);}
-#line 1302 "ejemplo2.tab.c" /* yacc.c:1646  */
+#line 56 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\n");}
+#line 1410 "ejemplo2.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 59 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.texto) = (yyvsp[0].texto);}
-#line 1308 "ejemplo2.tab.c" /* yacc.c:1646  */
+#line 57 "ejemplo2.y" /* yacc.c:1646  */
+    { yyerrok;                  }
+#line 1416 "ejemplo2.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
 #line 61 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.texto) = (yyvsp[0].texto);}
-#line 1314 "ejemplo2.tab.c" /* yacc.c:1646  */
+    { (yyval.entero) = (yyvsp[0].entero); }
+#line 1422 "ejemplo2.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 63 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.texto) = (yyvsp[0].texto);}
-#line 1320 "ejemplo2.tab.c" /* yacc.c:1646  */
+#line 62 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.entero) = (yyvsp[0].entero) * (-1);  }
+#line 1428 "ejemplo2.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 65 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.entero) = (yyvsp[0].entero); }
-#line 1326 "ejemplo2.tab.c" /* yacc.c:1646  */
+#line 63 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.entero) = (yyvsp[-2].entero) + (yyvsp[0].entero);    }
+#line 1434 "ejemplo2.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 66 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.entero) = (yyvsp[0].entero) * (-1);  }
-#line 1332 "ejemplo2.tab.c" /* yacc.c:1646  */
+#line 64 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.entero) = (yyvsp[-2].entero) * (yyvsp[0].entero);    }
+#line 1440 "ejemplo2.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 67 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.entero) = (yyvsp[-2].entero) + (yyvsp[0].entero);    }
-#line 1338 "ejemplo2.tab.c" /* yacc.c:1646  */
+#line 65 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.entero) = (yyvsp[-2].entero) / (yyvsp[0].entero);    }
+#line 1446 "ejemplo2.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 68 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.entero) = (yyvsp[-2].entero) * (yyvsp[0].entero);    }
-#line 1344 "ejemplo2.tab.c" /* yacc.c:1646  */
+#line 66 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.entero) = (yyvsp[-2].entero) - (yyvsp[0].entero);    }
+#line 1452 "ejemplo2.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 69 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.entero) = (yyvsp[-2].entero) / (yyvsp[0].entero);    }
-#line 1350 "ejemplo2.tab.c" /* yacc.c:1646  */
+#line 67 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.entero) = (yyvsp[-2].entero) % (yyvsp[0].entero);    }
+#line 1458 "ejemplo2.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 70 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.entero) = (yyvsp[-2].entero) - (yyvsp[0].entero);    }
-#line 1356 "ejemplo2.tab.c" /* yacc.c:1646  */
+#line 68 "ejemplo2.y" /* yacc.c:1646  */
+    { if(tipovar((yyvsp[-2].texto),ini)==0) {(yyval.entero)= retornaInt((yyvsp[-2].texto),ini) % (yyvsp[0].entero); }
+										else{printf("\tError de sintaxis: el modulo es entre enteros\n");}   }
+#line 1465 "ejemplo2.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 72 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.entero) = (yyvsp[0].entero);//corrobora que la variable existe
-						if(existe((yyvsp[-2].texto),ini)==1){
-							printf("La variable ya existe\n");
-							}
-						else{
-							agregar(0, (yyvsp[-2].texto), (yyvsp[0].entero), 0,"", cab,ini);
-							recorrer(ini);}
-						}
-#line 1369 "ejemplo2.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 20:
-#line 82 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.decimal) = (yyvsp[0].decimal); }
-#line 1375 "ejemplo2.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 21:
-#line 83 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.decimal) = (yyvsp[-2].decimal) + (yyvsp[0].decimal);    }
-#line 1381 "ejemplo2.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 22:
-#line 84 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.decimal) = (yyvsp[-2].decimal) * (yyvsp[0].decimal);    }
-#line 1387 "ejemplo2.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 23:
-#line 85 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.decimal) = (yyvsp[-2].decimal) / (yyvsp[0].decimal);    }
-#line 1393 "ejemplo2.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 24:
-#line 86 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.decimal) = (yyvsp[-2].decimal) - (yyvsp[0].decimal);    }
-#line 1399 "ejemplo2.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 25:
-#line 88 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.decimal) = (yyvsp[-2].decimal) + (yyvsp[0].entero);    }
-#line 1405 "ejemplo2.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 26:
-#line 89 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.decimal) = (yyvsp[-2].decimal) * (yyvsp[0].entero);    }
-#line 1411 "ejemplo2.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 27:
-#line 90 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.decimal) = (yyvsp[-2].decimal) / (yyvsp[0].entero);    }
-#line 1417 "ejemplo2.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 28:
-#line 91 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.decimal) = (yyvsp[-2].decimal) - (yyvsp[0].entero);    }
-#line 1423 "ejemplo2.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 29:
-#line 93 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.decimal) = (yyvsp[-2].entero) + (yyvsp[0].decimal);    }
-#line 1429 "ejemplo2.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 30:
-#line 94 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.decimal) = (yyvsp[-2].entero) * (yyvsp[0].decimal);    }
-#line 1435 "ejemplo2.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 31:
-#line 95 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.decimal) = (yyvsp[-2].entero) / (yyvsp[0].decimal);    }
-#line 1441 "ejemplo2.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 32:
-#line 96 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.decimal) = (yyvsp[-2].entero) - (yyvsp[0].decimal);    }
-#line 1447 "ejemplo2.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 33:
-#line 99 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.decimal) = (yyvsp[0].decimal);	//corrobora si la variable existe... falta reutilizar
-						if(existe((yyvsp[-2].texto),ini)==1){
-							printf("La variable ya existe\n");
-							}
-						else{
-							agregar(1, (yyvsp[-2].texto), 0, (yyvsp[0].decimal),"", cab,ini);
-							recorrer(ini);}
-}
-#line 1460 "ejemplo2.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 34:
-#line 111 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.texto) = (yyvsp[0].texto);}
-#line 1466 "ejemplo2.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 35:
-#line 115 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.texto) = (yyvsp[0].texto);}
+#line 70 "ejemplo2.y" /* yacc.c:1646  */
+    { if(tipovar((yyvsp[0].texto),ini)==0) {(yyval.entero)= (yyvsp[-2].entero) % retornaInt((yyvsp[0].texto),ini); } 
+										else{printf("\tError de sintaxis: el modulo es entre enteros\n");}  }
 #line 1472 "ejemplo2.tab.c" /* yacc.c:1646  */
     break;
 
-  case 36:
-#line 116 "ejemplo2.y" /* yacc.c:1646  */
-    {
-					(yyval.texto)=sumaString((yyvsp[-2].texto),(yyvsp[0].texto));
-					}
-#line 1480 "ejemplo2.tab.c" /* yacc.c:1646  */
+  case 20:
+#line 72 "ejemplo2.y" /* yacc.c:1646  */
+    { if((tipovar((yyvsp[-2].texto),ini)==0)&&(tipovar((yyvsp[0].texto),ini)==0)) {(yyval.entero)= retornaInt((yyvsp[-2].texto),ini) % retornaInt((yyvsp[0].texto),ini); }
+										else{printf("\tError de sintaxis: el modulo es entre enteros\n");}   }
+#line 1479 "ejemplo2.tab.c" /* yacc.c:1646  */
     break;
 
-  case 37:
-#line 120 "ejemplo2.y" /* yacc.c:1646  */
-    { 
-					(yyval.texto)=restaString((yyvsp[-2].texto),(yyvsp[0].texto));
-					}
-#line 1488 "ejemplo2.tab.c" /* yacc.c:1646  */
+  case 21:
+#line 77 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.decimal) = (yyvsp[0].decimal); }
+#line 1485 "ejemplo2.tab.c" /* yacc.c:1646  */
     break;
 
-  case 38:
-#line 124 "ejemplo2.y" /* yacc.c:1646  */
-    {
-						(yyval.texto)=powString((yyvsp[-3].texto),(yyvsp[-1].entero));
-					}
-#line 1496 "ejemplo2.tab.c" /* yacc.c:1646  */
+  case 22:
+#line 78 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.decimal) = (yyvsp[0].decimal) * (-1);  }
+#line 1491 "ejemplo2.tab.c" /* yacc.c:1646  */
     break;
 
-  case 39:
-#line 128 "ejemplo2.y" /* yacc.c:1646  */
-    { (yyval.texto) = (yyvsp[0].texto);	//corrobora si la variable existe... falta reutilizar
-						if(existe((yyvsp[-2].texto),ini)==1){
-							printf("La variable ya existe\n");
-							}
-						else{
-							agregar(2, (yyvsp[-2].texto), 0, 0,(yyvsp[0].texto), cab,ini);
-							recorrer(ini);}	
-					}
+  case 23:
+#line 79 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.decimal) = (yyvsp[-2].decimal) + (yyvsp[0].decimal);    }
+#line 1497 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 24:
+#line 80 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.decimal) = (yyvsp[-2].decimal) * (yyvsp[0].decimal);    }
+#line 1503 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 25:
+#line 81 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.decimal) = (yyvsp[-2].decimal) / (yyvsp[0].decimal);    }
 #line 1509 "ejemplo2.tab.c" /* yacc.c:1646  */
     break;
 
+  case 26:
+#line 82 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.decimal) = (yyvsp[-2].decimal) - (yyvsp[0].decimal);    }
+#line 1515 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
 
-#line 1513 "ejemplo2.tab.c" /* yacc.c:1646  */
+  case 27:
+#line 84 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.decimal) = (yyvsp[-2].decimal) + (yyvsp[0].entero);    }
+#line 1521 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 28:
+#line 85 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.decimal) = (yyvsp[-2].decimal) * (yyvsp[0].entero);    }
+#line 1527 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 29:
+#line 86 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.decimal) = (yyvsp[-2].decimal) / (yyvsp[0].entero);    }
+#line 1533 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 30:
+#line 87 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.decimal) = (yyvsp[-2].decimal) - (yyvsp[0].entero);    }
+#line 1539 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 31:
+#line 89 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.decimal) = (yyvsp[-2].entero) + (yyvsp[0].decimal);    }
+#line 1545 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 32:
+#line 90 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.decimal) = (yyvsp[-2].entero) * (yyvsp[0].decimal);    }
+#line 1551 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 33:
+#line 91 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.decimal) = (yyvsp[-2].entero) / (yyvsp[0].decimal);    }
+#line 1557 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 34:
+#line 92 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.decimal) = (yyvsp[-2].entero) - (yyvsp[0].decimal);    }
+#line 1563 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 35:
+#line 94 "ejemplo2.y" /* yacc.c:1646  */
+    {	if(tipovar((yyvsp[-2].texto),ini)==0)	{	(yyval.decimal) = retornaInt((yyvsp[-2].texto),ini) + (yyvsp[0].decimal); }
+											if(tipovar((yyvsp[-2].texto),ini)==1)	{	(yyval.decimal) = retornaFloat((yyvsp[-2].texto),ini) + (yyvsp[0].decimal); }	
+											if(tipovar((yyvsp[-2].texto),ini)==2)	{	printf("\tError de sintaxis: no se puede sumar numero con string\n");}	}
+#line 1571 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 36:
+#line 98 "ejemplo2.y" /* yacc.c:1646  */
+    {	if(tipovar((yyvsp[0].texto),ini)==0)	{	(yyval.decimal) = retornaInt((yyvsp[0].texto),ini) + (yyvsp[-2].decimal); }
+											if(tipovar((yyvsp[0].texto),ini)==1)	{	(yyval.decimal) = retornaFloat((yyvsp[0].texto),ini) + (yyvsp[-2].decimal); }	
+											if(tipovar((yyvsp[0].texto),ini)==2)	{	printf("\tError de sintaxis: no se puede sumar numero con string\n");}	}
+#line 1579 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 37:
+#line 102 "ejemplo2.y" /* yacc.c:1646  */
+    {	if(tipovar((yyvsp[-2].texto),ini)==0)	{	(yyval.decimal) = retornaInt((yyvsp[-2].texto),ini) + (yyvsp[0].entero); }
+											if(tipovar((yyvsp[-2].texto),ini)==1)	{	(yyval.decimal) = retornaFloat((yyvsp[-2].texto),ini) + (yyvsp[0].entero); }	
+											if(tipovar((yyvsp[-2].texto),ini)==2)	{	printf("\tError de sintaxis: no se puede sumar numero con string\n");}  }
+#line 1587 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 38:
+#line 106 "ejemplo2.y" /* yacc.c:1646  */
+    {	if(tipovar((yyvsp[0].texto),ini)==0)	{	(yyval.decimal) = retornaInt((yyvsp[0].texto),ini) + (yyvsp[-2].entero); }
+											if(tipovar((yyvsp[0].texto),ini)==1)	{	(yyval.decimal) = retornaFloat((yyvsp[0].texto),ini) + (yyvsp[-2].entero); }
+											if(tipovar((yyvsp[0].texto),ini)==2)	{	printf("\tError de sintaxis: no se puede sumar numero con string\n"); }	}
+#line 1595 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 39:
+#line 110 "ejemplo2.y" /* yacc.c:1646  */
+    { 	if((tipovar((yyvsp[-2].texto),ini)==0)&&(tipovar((yyvsp[0].texto),ini)==0))	{(yyval.decimal) = retornaInt((yyvsp[-2].texto),ini) + retornaInt((yyvsp[0].texto),ini);}
+											if((tipovar((yyvsp[-2].texto),ini)==1)&&(tipovar((yyvsp[0].texto),ini)==1))	{(yyval.decimal) = retornaFloat((yyvsp[-2].texto),ini) + retornaFloat((yyvsp[0].texto),ini);}
+											if((tipovar((yyvsp[-2].texto),ini)==1)&&(tipovar((yyvsp[0].texto),ini)==0))	{(yyval.decimal) = retornaFloat((yyvsp[-2].texto),ini) + retornaInt((yyvsp[0].texto),ini);}
+											if((tipovar((yyvsp[-2].texto),ini)==0)&&(tipovar((yyvsp[0].texto),ini)==1))	{(yyval.decimal) = retornaInt((yyvsp[-2].texto),ini) + retornaFloat((yyvsp[0].texto),ini);}	}
+#line 1604 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 40:
+#line 115 "ejemplo2.y" /* yacc.c:1646  */
+    {	if(tipovar((yyvsp[-2].texto),ini)==0)	{	(yyval.decimal) = retornaInt((yyvsp[-2].texto),ini) - (yyvsp[0].decimal); }
+											if(tipovar((yyvsp[-2].texto),ini)==1)	{	(yyval.decimal) = retornaFloat((yyvsp[-2].texto),ini) - (yyvsp[0].decimal); }	
+											if(tipovar((yyvsp[-2].texto),ini)==2)	{	printf("\tError de sintaxis: no se puede restar numero con string\n");}	}
+#line 1612 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 41:
+#line 119 "ejemplo2.y" /* yacc.c:1646  */
+    {	if(tipovar((yyvsp[0].texto),ini)==0)	{	(yyval.decimal) = retornaInt((yyvsp[0].texto),ini) - (yyvsp[-2].decimal); }
+											if(tipovar((yyvsp[0].texto),ini)==1)	{	(yyval.decimal) = retornaFloat((yyvsp[0].texto),ini) - (yyvsp[-2].decimal); }	
+											if(tipovar((yyvsp[0].texto),ini)==2)	{	printf("\tError de sintaxis: no se puede restar numero con string\n");}	}
+#line 1620 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 42:
+#line 123 "ejemplo2.y" /* yacc.c:1646  */
+    {	if(tipovar((yyvsp[-2].texto),ini)==0)	{	(yyval.decimal) = retornaInt((yyvsp[-2].texto),ini) - (yyvsp[0].entero); }
+											if(tipovar((yyvsp[-2].texto),ini)==1)	{	(yyval.decimal) = retornaFloat((yyvsp[-2].texto),ini) - (yyvsp[0].entero); }	
+											if(tipovar((yyvsp[-2].texto),ini)==2)	{	printf("\tError de sintaxis: no se puede restar numero con string\n");}  }
+#line 1628 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 43:
+#line 127 "ejemplo2.y" /* yacc.c:1646  */
+    {	if(tipovar((yyvsp[0].texto),ini)==0)	{	(yyval.decimal) = retornaInt((yyvsp[0].texto),ini) - (yyvsp[-2].entero); }
+											if(tipovar((yyvsp[0].texto),ini)==1)	{	(yyval.decimal) = retornaFloat((yyvsp[0].texto),ini) - (yyvsp[-2].entero); }
+											if(tipovar((yyvsp[0].texto),ini)==2)	{	printf("\tError de sintaxis: no se puede restar numero con string\n"); }	}
+#line 1636 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 44:
+#line 131 "ejemplo2.y" /* yacc.c:1646  */
+    { 	if((tipovar((yyvsp[-2].texto),ini)==0)&&(tipovar((yyvsp[0].texto),ini)==0))	{(yyval.decimal) = retornaInt((yyvsp[-2].texto),ini) - retornaInt((yyvsp[0].texto),ini);}
+											if((tipovar((yyvsp[-2].texto),ini)==1)&&(tipovar((yyvsp[0].texto),ini)==1))	{(yyval.decimal) = retornaFloat((yyvsp[-2].texto),ini) - retornaFloat((yyvsp[0].texto),ini);}
+											if((tipovar((yyvsp[-2].texto),ini)==1)&&(tipovar((yyvsp[0].texto),ini)==0))	{(yyval.decimal) = retornaFloat((yyvsp[-2].texto),ini) - retornaInt((yyvsp[0].texto),ini);}
+											if((tipovar((yyvsp[-2].texto),ini)==0)&&(tipovar((yyvsp[0].texto),ini)==1))	{(yyval.decimal) = retornaInt((yyvsp[-2].texto),ini) - retornaFloat((yyvsp[0].texto),ini);}	}
+#line 1645 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 45:
+#line 136 "ejemplo2.y" /* yacc.c:1646  */
+    {	if(tipovar((yyvsp[-2].texto),ini)==0)	{	(yyval.decimal) = retornaInt((yyvsp[-2].texto),ini) / (yyvsp[0].decimal); }
+											if(tipovar((yyvsp[-2].texto),ini)==1)	{	(yyval.decimal) = retornaFloat((yyvsp[-2].texto),ini) / (yyvsp[0].decimal); }	
+											if(tipovar((yyvsp[-2].texto),ini)==2)	{	printf("\tError de sintaxis: no se puede dividir numero con string\n");}	}
+#line 1653 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 46:
+#line 140 "ejemplo2.y" /* yacc.c:1646  */
+    {	if(tipovar((yyvsp[0].texto),ini)==0)	{	(yyval.decimal) = retornaInt((yyvsp[0].texto),ini) / (yyvsp[-2].decimal); }
+											if(tipovar((yyvsp[0].texto),ini)==1)	{	(yyval.decimal) = retornaFloat((yyvsp[0].texto),ini) / (yyvsp[-2].decimal); }	
+											if(tipovar((yyvsp[0].texto),ini)==2)	{	printf("\tError de sintaxis: no se puede dividir numero con string\n");}	}
+#line 1661 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 47:
+#line 144 "ejemplo2.y" /* yacc.c:1646  */
+    {	if(tipovar((yyvsp[-2].texto),ini)==0)	{	(yyval.decimal) = retornaInt((yyvsp[-2].texto),ini) / (yyvsp[0].entero); }
+											if(tipovar((yyvsp[-2].texto),ini)==1)	{	(yyval.decimal) = retornaFloat((yyvsp[-2].texto),ini) / (yyvsp[0].entero); }	
+											if(tipovar((yyvsp[-2].texto),ini)==2)	{	printf("\tError de sintaxis: no se puede dividir numero con string\n");}  }
+#line 1669 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 48:
+#line 148 "ejemplo2.y" /* yacc.c:1646  */
+    {	if(tipovar((yyvsp[0].texto),ini)==0)	{	(yyval.decimal) = retornaInt((yyvsp[0].texto),ini) / (yyvsp[-2].entero); }
+											if(tipovar((yyvsp[0].texto),ini)==1)	{	(yyval.decimal) = retornaFloat((yyvsp[0].texto),ini) / (yyvsp[-2].entero); }
+											if(tipovar((yyvsp[0].texto),ini)==2)	{	printf("\tError de sintaxis: no se puede dividir numero con string\n"); }	}
+#line 1677 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 49:
+#line 152 "ejemplo2.y" /* yacc.c:1646  */
+    { 	if((tipovar((yyvsp[-2].texto),ini)==0)&&(tipovar((yyvsp[0].texto),ini)==0))	{(yyval.decimal) = retornaInt((yyvsp[-2].texto),ini) / retornaInt((yyvsp[0].texto),ini);}
+											if((tipovar((yyvsp[-2].texto),ini)==1)&&(tipovar((yyvsp[0].texto),ini)==1))	{(yyval.decimal) = retornaFloat((yyvsp[-2].texto),ini) / retornaFloat((yyvsp[0].texto),ini);}
+											if((tipovar((yyvsp[-2].texto),ini)==1)&&(tipovar((yyvsp[0].texto),ini)==0))	{(yyval.decimal) = retornaFloat((yyvsp[-2].texto),ini) / retornaInt((yyvsp[0].texto),ini);}
+											if((tipovar((yyvsp[-2].texto),ini)==0)&&(tipovar((yyvsp[0].texto),ini)==1))	{(yyval.decimal) = retornaInt((yyvsp[-2].texto),ini) / retornaFloat((yyvsp[0].texto),ini);}	}
+#line 1686 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 50:
+#line 157 "ejemplo2.y" /* yacc.c:1646  */
+    {	if(tipovar((yyvsp[-2].texto),ini)==0)	{	(yyval.decimal) = retornaInt((yyvsp[-2].texto),ini) * (yyvsp[0].decimal); }
+											if(tipovar((yyvsp[-2].texto),ini)==1)	{	(yyval.decimal) = retornaFloat((yyvsp[-2].texto),ini) * (yyvsp[0].decimal); }	
+											if(tipovar((yyvsp[-2].texto),ini)==2)	{	printf("\tError de sintaxis: no se puede multiplicar numero con string\n");}	}
+#line 1694 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 51:
+#line 161 "ejemplo2.y" /* yacc.c:1646  */
+    {	if(tipovar((yyvsp[0].texto),ini)==0)	{	(yyval.decimal) = retornaInt((yyvsp[0].texto),ini) * (yyvsp[-2].decimal); }
+											if(tipovar((yyvsp[0].texto),ini)==1)	{	(yyval.decimal) = retornaFloat((yyvsp[0].texto),ini) * (yyvsp[-2].decimal); }	
+											if(tipovar((yyvsp[0].texto),ini)==2)	{	printf("\tError de sintaxis: no se puede multiplicar numero con string\n");}	}
+#line 1702 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 52:
+#line 165 "ejemplo2.y" /* yacc.c:1646  */
+    {	if(tipovar((yyvsp[-2].texto),ini)==0)	{	(yyval.decimal) = retornaInt((yyvsp[-2].texto),ini) * (yyvsp[0].entero); }
+											if(tipovar((yyvsp[-2].texto),ini)==1)	{	(yyval.decimal) = retornaFloat((yyvsp[-2].texto),ini) * (yyvsp[0].entero); }	
+											if(tipovar((yyvsp[-2].texto),ini)==2)	{	printf("\tError de sintaxis: no se puede multiplicar numero con string\n");}  }
+#line 1710 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 53:
+#line 169 "ejemplo2.y" /* yacc.c:1646  */
+    {	if(tipovar((yyvsp[0].texto),ini)==0)	{	(yyval.decimal) = retornaInt((yyvsp[0].texto),ini) * (yyvsp[-2].entero); }
+											if(tipovar((yyvsp[0].texto),ini)==1)	{	(yyval.decimal) = retornaFloat((yyvsp[0].texto),ini) * (yyvsp[-2].entero); }
+											if(tipovar((yyvsp[0].texto),ini)==2)	{	printf("\tError de sintaxis: no se puede multiplicar numero con string\n"); }	}
+#line 1718 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 54:
+#line 173 "ejemplo2.y" /* yacc.c:1646  */
+    { 	if((tipovar((yyvsp[-2].texto),ini)==0)&&(tipovar((yyvsp[0].texto),ini)==0))	{(yyval.decimal) = retornaInt((yyvsp[-2].texto),ini) * retornaInt((yyvsp[0].texto),ini);}
+											if((tipovar((yyvsp[-2].texto),ini)==1)&&(tipovar((yyvsp[0].texto),ini)==1))	{(yyval.decimal) = retornaFloat((yyvsp[-2].texto),ini) * retornaFloat((yyvsp[0].texto),ini);}
+											if((tipovar((yyvsp[-2].texto),ini)==1)&&(tipovar((yyvsp[0].texto),ini)==0))	{(yyval.decimal) = retornaFloat((yyvsp[-2].texto),ini) * retornaInt((yyvsp[0].texto),ini);}
+											if((tipovar((yyvsp[-2].texto),ini)==0)&&(tipovar((yyvsp[0].texto),ini)==1))	{(yyval.decimal) = retornaInt((yyvsp[-2].texto),ini) * retornaFloat((yyvsp[0].texto),ini);}	}
+#line 1727 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 55:
+#line 178 "ejemplo2.y" /* yacc.c:1646  */
+    { 
+										(yyval.decimal)=powInt((yyvsp[-3].entero),(yyvsp[-1].entero));		
+										}
+#line 1735 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 56:
+#line 181 "ejemplo2.y" /* yacc.c:1646  */
+    { 
+										(yyval.decimal)=powFloat((yyvsp[-3].decimal),(yyvsp[-1].entero));		
+										}
+#line 1743 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 57:
+#line 187 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.texto) = (yyvsp[0].texto);}
+#line 1749 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 58:
+#line 190 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.texto) = (yyvsp[0].texto);}
+#line 1755 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 59:
+#line 191 "ejemplo2.y" /* yacc.c:1646  */
+    {
+					(yyval.texto)=sumaString((yyvsp[-2].texto),(yyvsp[0].texto));
+					}
+#line 1763 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 60:
+#line 195 "ejemplo2.y" /* yacc.c:1646  */
+    { 
+					(yyval.texto)=restaString((yyvsp[-2].texto),(yyvsp[0].texto));
+					}
+#line 1771 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 61:
+#line 199 "ejemplo2.y" /* yacc.c:1646  */
+    {
+						(yyval.texto)=powString((yyvsp[-3].texto),(yyvsp[-1].entero));
+					}
+#line 1779 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 62:
+#line 202 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1785 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 63:
+#line 203 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1791 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 64:
+#line 204 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1797 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 65:
+#line 205 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1803 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 66:
+#line 206 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1809 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 67:
+#line 207 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1815 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 68:
+#line 208 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1821 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 69:
+#line 209 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1827 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 70:
+#line 210 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1833 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 71:
+#line 211 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1839 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 72:
+#line 212 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1845 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 73:
+#line 213 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1851 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 74:
+#line 214 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1857 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 75:
+#line 215 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1863 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 76:
+#line 216 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1869 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 77:
+#line 217 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1875 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 78:
+#line 218 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1881 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 79:
+#line 219 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1887 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 80:
+#line 220 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1893 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 81:
+#line 221 "ejemplo2.y" /* yacc.c:1646  */
+    {printf("\tError de sintaxis: no se pueden sumar tipos distintos\n");(yyval.texto)="Error";}
+#line 1899 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 82:
+#line 223 "ejemplo2.y" /* yacc.c:1646  */
+    {if(tipovar((yyvsp[0].texto),ini)==2)	{ (yyval.texto)=sumaString((yyvsp[-2].texto),retornaString((yyvsp[0].texto),ini));	}
+								else{	printf("\tError de sintaxis, no son cadenas las dos variables\n");}	}
+#line 1906 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 83:
+#line 225 "ejemplo2.y" /* yacc.c:1646  */
+    {if(tipovar((yyvsp[-2].texto),ini)==2)	{ (yyval.texto)=sumaString(retornaString((yyvsp[-2].texto),ini),(yyvsp[0].texto));	}
+								else{	printf("\tError de sintaxis, no son cadenas las dos variables\n");}	}
+#line 1913 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 84:
+#line 227 "ejemplo2.y" /* yacc.c:1646  */
+    {if(tipovar((yyvsp[0].texto),ini)==2)	{ (yyval.texto)=restaString((yyvsp[-2].texto),retornaString((yyvsp[0].texto),ini));	}
+								else{	printf("\tError de sintaxis, no son cadenas las dos variables\n");}	}
+#line 1920 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 85:
+#line 229 "ejemplo2.y" /* yacc.c:1646  */
+    {if(tipovar((yyvsp[-2].texto),ini)==2)	{ (yyval.texto)=restaString(retornaString((yyvsp[-2].texto),ini),(yyvsp[0].texto));	}
+								else{	printf("\tError de sintaxis, no son cadenas las dos variables\n");}	}
+#line 1927 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 86:
+#line 231 "ejemplo2.y" /* yacc.c:1646  */
+    {
+						if(tipovar((yyvsp[-3].texto),ini)==2){
+							(yyval.texto)=powString(retornaString((yyvsp[-3].texto),ini),(yyvsp[-1].entero));}
+					}
+#line 1936 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 87:
+#line 235 "ejemplo2.y" /* yacc.c:1646  */
+    {
+						if((tipovar((yyvsp[-2].texto),ini)==2)&&(tipovar((yyvsp[0].texto),ini)==2)){
+							(yyval.texto)=sumaString(retornaString((yyvsp[-2].texto),ini),retornaString((yyvsp[0].texto),ini));}
+					}
+#line 1945 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 88:
+#line 243 "ejemplo2.y" /* yacc.c:1646  */
+    {(yyval.entero) = (yyvsp[0].entero);}
+#line 1951 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 89:
+#line 245 "ejemplo2.y" /* yacc.c:1646  */
+    { (yyval.texto) = (yyvsp[0].texto);}
+#line 1957 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 90:
+#line 248 "ejemplo2.y" /* yacc.c:1646  */
+    {//DECLARAR UN VALOR Y ASIGNARLE UN ENTERO
+						if((yyvsp[-3].entero)==0){ 
+							if(existe((yyvsp[-2].texto),ini)==1){
+								printf("\tError de sintaxis: La variable ya existe\n");
+								//imprimeValores($2,ini);
+								}
+							else{
+								agregar(0, (yyvsp[-2].texto), (yyvsp[0].entero), 0,"", cab,ini);
+								//imprimeValores($2,ini);
+								recorrer(ini);}
+						}
+						else if((yyvsp[-3].entero)==1){
+							if(existe((yyvsp[-2].texto),ini)==1){
+								printf("\tError de sintaxis: La variable ya existe\n");
+								//imprimeValores($2,ini);
+								}
+							else{
+								agregar(1, (yyvsp[-2].texto), 0, (yyvsp[0].entero),"", cab,ini);
+								//imprimeValores($2,ini);
+								recorrer(ini);}							
+						}
+						else if((yyvsp[-3].entero)==2){
+							if(existe((yyvsp[-2].texto),ini)==1){
+								printf("\tError de sintaxis: No se puede asignar valor int a variable tipo String\n");
+								printf("\tError de sintaxis: La variable ya existe\n");
+								}
+							else{
+								printf("\tError de sintaxis: No se puede asignar valor int a variable tipo String\n");}							
+						}
+					(yyval.texto)=(yyvsp[-2].texto);
+					}
+#line 1993 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 91:
+#line 279 "ejemplo2.y" /* yacc.c:1646  */
+    {//DECLARAR UN VALOR Y ASIGNARLE UN DECIMAL
+						if((yyvsp[-3].entero)==0){ 
+							if(existe((yyvsp[-2].texto),ini)==1){
+								printf("\tError de sintaxis: La variable ya existe\n");
+								}
+							else{
+								agregar(0, (yyvsp[-2].texto), (yyvsp[0].decimal), 0,"", cab,ini);
+								recorrer(ini);}
+						}
+						else if((yyvsp[-3].entero)==1){
+							if(existe((yyvsp[-2].texto),ini)==1){
+								printf("\tError de sintaxis: La variable ya existe\n");
+								}
+							else{
+								agregar(1, (yyvsp[-2].texto), 0, (yyvsp[0].decimal),"", cab,ini);
+								recorrer(ini);}							
+						}
+						else if((yyvsp[-3].entero)==2){
+							if(existe((yyvsp[-2].texto),ini)==1){
+								printf("\tError de sintaxis: No se puede asignar valor float a variable tipo String\n");
+								printf("\tError de sintaxis: La variable ya existe\n");
+								}
+							else{
+								printf("\tError de sintaxis: No se puede asignar valor float a variable tipo String\n");}							
+						}
+					(yyval.texto)=(yyvsp[-2].texto);
+					}
+#line 2025 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 92:
+#line 306 "ejemplo2.y" /* yacc.c:1646  */
+    {//DECLARAR UN VALOR Y ASIGNARLE UNA CADENA
+						if((yyvsp[-3].entero)==0){ 
+							if(existe((yyvsp[-2].texto),ini)==1){
+								printf("\tError de sintaxis: No se puede asignar valor String a variable tipo int\n");
+								printf("\tError de sintaxis: La variable ya existe\n");
+								}
+							else{
+								printf("\tError de sintaxis: No se puede asignar valor float a variable tipo String\n");}	
+						}
+						else if((yyvsp[-3].entero)==1){
+							if(existe((yyvsp[-2].texto),ini)==1){
+								printf("\tError de sintaxis: No se puede asignar valor String a variable tipo float\n");
+								printf("\tError de sintaxis: La variable ya existe\n");
+								}
+							else{
+								printf("\tError de sintaxis: No se puede asignar valor float a variable tipo String\n");}						
+						}
+						else if((yyvsp[-3].entero)==2){
+							if(existe((yyvsp[-2].texto),ini)==1){
+								printf("\tError de sintaxis: La variable ya existe\n");
+								}
+							else{
+								agregar(2, (yyvsp[-2].texto), 0, 0,(yyvsp[0].texto), cab,ini);
+								recorrer(ini);}							
+						}
+					(yyval.texto)=(yyvsp[-2].texto);
+					}
+#line 2057 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 93:
+#line 333 "ejemplo2.y" /* yacc.c:1646  */
+    {//DECLARAR SIN DAR UN VALOR;
+						if((yyvsp[-1].entero)==0){ //si tipo var es INT
+							if(existe((yyvsp[0].texto),ini)==1){
+								printf("\tError de sintaxis: La variable ya existe\n");
+								}
+							else{
+								agregar(0, (yyvsp[0].texto), 0, 0,"", cab,ini);
+								recorrer(ini);}
+						}
+						else if((yyvsp[-1].entero)==1){//si tipo var es FLOAT
+							if(existe((yyvsp[0].texto),ini)==1){
+								printf("\tError de sintaxis: La variable ya existe\n");
+								}
+							else{
+								agregar(1, (yyvsp[0].texto), 0, 0,"", cab,ini);
+								recorrer(ini);}							
+						}
+						else if((yyvsp[-1].entero)==2){//si tipo var es STRING
+							if(existe((yyvsp[0].texto),ini)==1){
+								printf("\tError de sintaxis: La variable ya existe\n");
+								}
+							else{
+								agregar(2, (yyvsp[0].texto), 0, 0,"", cab,ini);
+								recorrer(ini);}							
+						}
+						(yyval.texto)=(yyvsp[0].texto);
+					}
+#line 2089 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 94:
+#line 364 "ejemplo2.y" /* yacc.c:1646  */
+    {
+						if(existe((yyvsp[-2].texto),ini)==1){//void sobreescribirValor(char * nombre,int varInt, float varFloat , char * varString, Nodo * ini)
+							if(tipovar((yyvsp[-2].texto),ini)==0)	{sobreescribirValor((yyvsp[-2].texto),(yyvsp[0].entero), 0, "", ini);}
+							if(tipovar((yyvsp[-2].texto),ini)==1)	{sobreescribirValor((yyvsp[-2].texto),0, (yyvsp[0].entero), "", ini);}
+							if(tipovar((yyvsp[-2].texto),ini)==2)	{printf("\tError de sintaxis: La variable no es entero ni float\n");
+							imprimeValores((yyvsp[-2].texto),ini);}
+							}
+						else{
+							printf("\tError de sintaxis: La variable no existe\n");}	
+						(yyval.texto)=(yyvsp[-2].texto);							
+					}
+#line 2105 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 95:
+#line 375 "ejemplo2.y" /* yacc.c:1646  */
+    {
+						if(existe((yyvsp[-2].texto),ini)==1){//void sobreescribirValor(char * nombre,int varInt, float varFloat , char * varString, Nodo * ini)
+							if(tipovar((yyvsp[-2].texto),ini)==0)	{sobreescribirValor((yyvsp[-2].texto), (yyvsp[0].decimal), 0, "", ini);}
+							if(tipovar((yyvsp[-2].texto),ini)==1)	{sobreescribirValor((yyvsp[-2].texto), 0, (yyvsp[0].decimal), "", ini);}
+							if(tipovar((yyvsp[-2].texto),ini)==2)	{printf("\tError de sintaxis: La variable no es entero ni float\n");}
+							imprimeValores((yyvsp[-2].texto),ini);
+							}
+						else{
+							printf("\tError de sintaxis: La variable no existe\n");}
+						(yyval.texto)=(yyvsp[-2].texto);								
+					}
+#line 2121 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 96:
+#line 386 "ejemplo2.y" /* yacc.c:1646  */
+    {
+						(yyval.texto)=(yyvsp[-2].texto);
+						if(existe((yyvsp[-2].texto),ini)==1){//void sobreescribirValor(char * nombre,int varInt, float varFloat , char * varString, Nodo * ini)
+							if(tipovar((yyvsp[-2].texto),ini)==0)	{printf("\tError de sintaxis: La variable no es de tipo String\n");}
+							if(tipovar((yyvsp[-2].texto),ini)==1)	{printf("\tError de sintaxis: La variable no es de tipo String\n");}
+							if(tipovar((yyvsp[-2].texto),ini)==2)	{sobreescribirValor((yyvsp[-2].texto), 0, 0, (yyvsp[0].texto), ini);}
+							}
+						else{
+							printf("\tError de sintaxis: La variable no existe\n");}	
+						(yyval.texto)=(yyvsp[-2].texto);						
+					}
+#line 2137 "ejemplo2.tab.c" /* yacc.c:1646  */
+    break;
+
+
+#line 2141 "ejemplo2.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1737,7 +2365,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 141 "ejemplo2.y" /* yacc.c:1906  */
+#line 401 "ejemplo2.y" /* yacc.c:1906  */
 
 
 int main() {
