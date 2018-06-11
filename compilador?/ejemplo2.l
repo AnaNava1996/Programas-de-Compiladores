@@ -7,6 +7,7 @@ NUM [0-9]+
 CAD \"(\\.|[^"\\])*\"
 
 POW ("P"|"p")("O"|"o")("W"|"w")
+PRINTF ("P"|"p")("R"|"r")("I"|"i")("N"|"n")("T"|"t")("F"|"f")
 
 INT ("I"|"i")("N"|"n")("T"|"t")
 FLOAT ("F"|"f")("L"|"l")("O"|"o")("A"|"a")("T"|"t")
@@ -99,6 +100,11 @@ VAR [a-zA-Z"_"]([a-zA-Z0-9"_"])*
 		//printf("Potencia de caracteres\n");
         yylval.texto = yytext;
 		return (POTENCIA);
+		}
+{PRINTF}		{
+		//printf("Potencia de caracteres\n");
+        yylval.texto = yytext;
+		return (PRINTF);
 		}
 
 {INT}	{

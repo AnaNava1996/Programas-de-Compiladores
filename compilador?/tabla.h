@@ -45,6 +45,30 @@ int agregar(unsigned char tipo, char * nombre, int t_int, float t_float ,char * 
     ptrAux->next = ptrNuevo;
 }
 
+Nodo * declarar(unsigned char tipo, char * nombre, int t_int, float t_float ,char * t_string){//con esta función, declaro nodos nuevos sin
+    Nodo * ptrNuevo;                                                                          //agregarlos en la lista
+    ptrNuevo=malloc(sizeof(Nodo));
+    ptrNuevo->tipo=tipo;
+    ptrNuevo->nombre=nombre;
+    ptrNuevo->t_int=malloc(sizeof(int));
+    ptrNuevo->t_float=malloc(sizeof(float));
+    *ptrNuevo->t_int=t_int;
+    *ptrNuevo->t_float=t_float;
+    if(t_string==NULL)ptrNuevo->t_string=t_string;//con esto agrego el valor de la cadena.
+    else {  //en el caso de no ser null, hago todo esto para no tener problemas.
+      int tam = 0;
+      while(t_string[tam]!='\0') {//mido el tamaño de la cadena
+        tam++;}
+      ptrNuevo->t_string=malloc(sizeof(char)*tam+1);//ese tamaño más el caracter '\0'
+      tam = 0;
+      while(t_string[tam]!='\0') {
+        ptrNuevo->t_string[tam]=t_string[tam];
+        tam++;}
+      ptrNuevo->t_string[tam]='\0';
+    }
+    return ptrNuevo;
+}
+
 //Compara si un string es exactamente igual a otro. Retorna un 0 si son iguales.
 int precisionCompare (char *s1, char * s2)
 {
@@ -102,6 +126,11 @@ int tipovar(char * nombre, Nodo * ini){//esta funcion recibe el nombre de la var
   }
 }
 
+int tipovarNodo(Nodo * ptrAux){//esta función recibe un nodo y devuelve su tipo
+  return ptrAux->tipo;
+}
+
+
 int retornaInt(char * nombre, Nodo * ini){//esta funcion recibe el nombre de la variable, checa que exista y devuelve su valor entero
   Nodo * ptrAux=ini;
   while(ptrAux!=NULL){
@@ -136,7 +165,7 @@ void imprimeValores(char * nombre, Nodo * ini){//pues eso... imprime valores
   Nodo * ptrAux=ini;
   while(ptrAux!=NULL){
     if(precisionCompare(ptrAux->nombre,nombre)==0){
-      printf("tipo: %d\n",ptrAux->tipo);
+      printf("\ntipo: %d\n",ptrAux->tipo);
       printf("nombre: %s\n",ptrAux->nombre);
       printf("int: %d\n",*ptrAux->t_int);
       printf("float: %f\n",*ptrAux->t_float);
