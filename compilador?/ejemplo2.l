@@ -14,6 +14,9 @@ FLOAT ("F"|"f")("L"|"l")("O"|"o")("A"|"a")("T"|"t")
 STRING ("S"|"s")("T"|"t")("R"|"r")("I"|"i")("N"|"n")("G"|"g")
 VAR [a-zA-Z"_"]([a-zA-Z0-9"_"])*
 
+IF ("I"|"i")("F"|"f")
+
+
 %%
 
 {NUM}           {
@@ -35,6 +38,12 @@ VAR [a-zA-Z"_"]([a-zA-Z0-9"_"])*
 
 "-"         	{
                 //printf("Signo menos\n");
+                return (yytext[0]);
+                }
+">"         	{
+                return (yytext[0]);
+                }
+"<"         	{
                 return (yytext[0]);
                 }
 
@@ -101,6 +110,12 @@ VAR [a-zA-Z"_"]([a-zA-Z0-9"_"])*
         yylval.texto = yytext;
 		return (POTENCIA);
 		}
+
+{IF}	{
+        yylval.texto = yytext;
+		return (IF);
+		}		
+		
 {PRINTF}		{
 		//printf("Potencia de caracteres\n");
         yylval.texto = yytext;
@@ -139,8 +154,6 @@ VAR [a-zA-Z"_"]([a-zA-Z0-9"_"])*
 		yylval.texto = input;
 		return (NOMBRE);
 		}
-
-
 
 
 .               ;
