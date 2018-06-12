@@ -250,6 +250,7 @@ char * restaString(char * a,char * b){//función resta de cadenas
   int fin=0;
   int len1=0;
   int len3=0;
+  int len4=0;
   char *aux;
   while(a[len1]!='\0'){//mido el largo de la primera cadena
     len1++;}
@@ -257,6 +258,7 @@ char * restaString(char * a,char * b){//función resta de cadenas
     len3++;}
   if(len3>len1){
     printf("\nerror, resta no valida\n\n");//la cadena que resta es más larga que la primera
+    return a;
    }
   else{
     aux = malloc(sizeof(char)*(len1+1));
@@ -282,9 +284,14 @@ char * restaString(char * a,char * b){//función resta de cadenas
           }
         }
       }
+      while(aux[len4]!='\0'){//el de aux
+        len4++;}
+      if(len4>1){
+        return aux;}
+      else{
+        return a;  }//este significa que no se resto nada
     }
   //printf("\n%s\n",aux);
-  return aux;
 }
 
 

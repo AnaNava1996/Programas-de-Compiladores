@@ -74,17 +74,19 @@ line:	'\n'	{printf("\tError de sintaxis: falta un ;\n");}
 ;
          
 exp_entera:     ENTERO	{ $$ = $1; }
-	| '-' exp_entera		   { $$ = $2 * (-1);  }
-	| exp_entera '+' exp_entera        { $$ = $1 + $3;    }
-	| exp_entera '*' exp_entera        { $$ = $1 * $3;    }
-	| exp_entera '/' exp_entera        { $$ = $1 / $3;    }
-	| exp_entera '-' exp_entera        { $$ = $1 - $3;    }
-	| exp_entera '%' exp_entera        { $$ = $1 % $3;    }
+	| '-' exp_entera		   		  { $$ = $2 * (-1);  }
+	| '(' exp_entera ')'			  { $$ = $2;		 }
+	| exp_entera '+' exp_entera       { $$ = $1 + $3;    }
+	| exp_entera '*' exp_entera       { $$ = $1 * $3;    }
+	| exp_entera '/' exp_entera       { $$ = $1 / $3;    }
+	| exp_entera '-' exp_entera       { $$ = $1 - $3;    }
+	| exp_entera '%' exp_entera       { $$ = $1 % $3;    }
 ;
 
 
 exp_decimal:     DECIMAL	{ $$ = $1; }
-	| '-' exp_decimal		   { $$ = $2 * (-1);  }
+	| '-' exp_decimal		   			 { $$ = $2 * (-1);  }
+	| '(' exp_decimal ')' 				 { $$ = $2;			}
 	| exp_decimal '+' exp_decimal        { $$ = $1 + $3;    }
 	| exp_decimal '*' exp_decimal        { $$ = $1 * $3;    }
 	| exp_decimal '/' exp_decimal        { $$ = $1 / $3;    }
@@ -148,7 +150,8 @@ exp_texto:	TEXTO		{ $$ = $1;}
 ;
 
 operacion_con_variable:
-	nombre_var '+' exp_decimal  {
+	'(' operacion_con_variable ')'	{	$$=$2;	}
+	| nombre_var '+' exp_decimal  {
 		if(existe($1,ini)==1){	//////////////////////////////-------SUMAS------//////////////////////////////
 			if(tipovar($1,ini)==0)	{	
 				$$ = declarar(1,"",0,retornaInt($1,ini)+$3,""); 	}//declaro un nodo auxiliar tipo float
@@ -422,8 +425,8 @@ operacion_con_variable:
 	| operacion_con_variable '*' nombre_var	{	
 			if(existe($3,ini)==1){
 				if(tipovarNodo($1)==1){
-					if(tipovar($3,ini)==0)		{$$ = declarar(1,"",0,retornaInt($3,ini)*(*$1->t_float),"");}
-					else if(tipovar($3,ini)==1) {$$ = declarar(1,"",0,retornaFloat($3,ini)*(*$1->t_float),"");}
+					if(tipovar($3,ini)==0)		{$$ = declarar(1,"",0,(*$1->t_float)*retornaInt($3,ini),"");}
+					else if(tipovar($3,ini)==1) {$$ = declarar(1,"",0,(*$1->t_float)*retornaFloat($3,ini),"");}
 					else if(tipovar($3,ini)==2)	{ printf("\tError, operación de tipos distintos\n"); 	$$=NULL;	} 		}
 				else if(tipovarNodo($1)==2){ printf("\tError de sintaxis: strings no se multiplican\n");	$$=NULL;	}		}
 			else{	printf("\tError, una de las variables no existe\n");	$$=NULL; }			}	
@@ -507,8 +510,8 @@ operacion_con_variable:
 	| operacion_con_variable '/' nombre_var	{	
 		if(existe($3,ini)==1){
 			if(tipovarNodo($1)==1){
-				if(tipovar($3,ini)==0)		{$$ = declarar(1,"",0,retornaInt($3,ini)/(*$1->t_float),"");}
-				else if(tipovar($3,ini)==1) {$$ = declarar(1,"",0,retornaFloat($3,ini)/(*$1->t_float),"");}
+				if(tipovar($3,ini)==0)		{$$ = declarar(1,"",0,(*$1->t_float)/retornaInt($3,ini),"");}
+				else if(tipovar($3,ini)==1) {$$ = declarar(1,"",0,(*$1->t_float)/retornaFloat($3,ini),"");}
 				else if(tipovar($3,ini)==2)	{ printf("\tError, operación de tipos distintos\n"); 	$$=NULL;	}		}
 			else if(tipovarNodo($1)==2){ printf("\tError de sintaxis: strings no se dividen\n");	$$=NULL;	}
 			}//en caso de no existir una variable, devuelvo nulo para anular toda la operación anterior 
@@ -590,21 +593,24 @@ declaracion_variable:
 						else if($1==1){
 							printf("\tError de sintaxis: No se puede asignar String a variable tipo float\n");	}
 						else if($1==2){
-							if($4==NULL)	{printf(" ");}
+							if($4==NULL)	{printf("\tExpresión no valida\n");}
 							else	{agregar(2, $2, 0, 0,$4, cab,ini);	recorrer(ini);	}	}
 						$$=$2;
 					}
 	 | tipo_var nombre_var '=' operacion_con_variable ';' {//DECLARAR UN VALOR Y ASIGNARLE UN NODO
 						if(existe($2,ini)==1){
-							printf("\tError de sintaxis: La variable ya existe\n");		}	
-						else if (tipovarNodo($4)==2)	{				
-							if($1==0){	printf("\tError de sintaxis: No se puede asignar String a variable tipo int\n");	}
-							if($1==1){	printf("\tError de sintaxis: No se puede asignar String a variable tipo float\n");	}
-							if($1==2){	agregar(2, $2, 0, 0,$4->t_string, cab,ini);	recorrer(ini);	}	}
-						else if (tipovarNodo($4)==1)	{
-							if($1==0){	agregar(0, $2, *$4->t_float, 0,"", cab,ini);	recorrer(ini);	}
-							if($1==1){	agregar(1, $2, 0, *$4->t_float,"", cab,ini);	recorrer(ini);	}
-							if($1==2){	printf("\tError de sintaxis: No se puede asignar int o float a variable tipo string\n");	}	}
+							printf("\tError de sintaxis: La variable ya existe\n");		}
+						else if($4==NULL){
+							printf("\tExpresión no válida para asignar\n");	}	
+						else{
+							if (tipovarNodo($4)==2)	{				
+								if($1==0){	printf("\tError de sintaxis: No se puede asignar String a variable tipo int\n");	}
+								if($1==1){	printf("\tError de sintaxis: No se puede asignar String a variable tipo float\n");	}
+								if($1==2){	agregar(2, $2, 0, 0,$4->t_string, cab,ini);	recorrer(ini);	}	}
+							else if (tipovarNodo($4)==1)	{
+								if($1==0){	agregar(0, $2, *$4->t_float, 0,"", cab,ini);	recorrer(ini);	}
+								if($1==1){	agregar(1, $2, 0, *$4->t_float,"", cab,ini);	recorrer(ini);	}
+								if($1==2){	printf("\tError de sintaxis: No se puede asignar int o float a variable tipo string\n");	}	}	}
 						$$=$2;
 					}				
 	| tipo_var  nombre_var	'=' nombre_var ';' {//DECLARAR UNA VARIABLE Y ASIGNARLE EL VALOR DE OTRA VARIABLE
@@ -683,21 +689,51 @@ sobreescribir_variable://SOBREESCRIBO EL VALOR O LE ASIGNO A VARIABLES QUE EXIST
 						$$=$1;						
 					}
 	|nombre_var '=' operacion_con_variable {
-						if(existe($1,ini)==1){//void sobreescribirValor(char * nombre,int varInt, float varFloat , char * varString, Nodo * ini)
-							if(tipovar($1,ini)==0)	{
-								if(tipovarNodo($3)==1){
-									sobreescribirValor($1, *$3->t_float, 0, "", ini);}}
-							if(tipovar($1,ini)==1)	{
-								if(tipovarNodo($3)==1){
-									sobreescribirValor($1, 0, *$3->t_float, "", ini);}}
-							if(tipovar($1,ini)==2)	{
-								if(tipovarNodo($3)==2){
-									sobreescribirValor($1, 0, 0, $3->t_string, ini);}}
-							}
-						else{	printf("\tError de sintaxis: La variable no existe\n");}	
+						if($3==NULL){
+							printf("\tExpresión no valida para gregar, se conserva el valor anterior\n");}
+						else{
+							if(existe($1,ini)==1){//void sobreescribirValor(char * nombre,int varInt, float varFloat , char * varString, Nodo * ini)
+								if(tipovar($1,ini)==0)	{
+									if(tipovarNodo($3)==1){
+										sobreescribirValor($1, *$3->t_float, 0, "", ini);}}
+								if(tipovar($1,ini)==1)	{
+									if(tipovarNodo($3)==1){
+										sobreescribirValor($1, 0, *$3->t_float, "", ini);}}
+								if(tipovar($1,ini)==2)	{
+									if(tipovarNodo($3)==2){
+										sobreescribirValor($1, 0, 0, $3->t_string, ini);}}
+								}
+							else{	printf("\tError de sintaxis: La variable no existe\n");}	}
 						$$=$1;						
 					}
+					
+	| nombre_var '=' nombre_var {
+						if(existe($3,ini)==0){
+							printf("\tLa variable no existe\n");}
+						else{
+							if(existe($1,ini)==1){//void sobreescribirValor(char * nombre,int varInt, float varFloat , char * varString, Nodo * ini)
+								if(tipovar($1,ini)==0)	{
+									if(tipovar($3,ini)==0){
+										sobreescribirValor($1, retornaInt($3,ini), 0, "", ini);}
+									else if(tipovar($3,ini)==1){
+										sobreescribirValor($1, retornaFloat($3,ini), 0, "", ini);}
+									else{printf("\tError de tipo de variable\n");}		}
+								else if(tipovar($1,ini)==1)	{
+									if(tipovar($3,ini)==0){
+										sobreescribirValor($1, 0, retornaInt($3,ini), "", ini);}
+									else if(tipovar($3,ini)==1){
+										sobreescribirValor($1, 0, retornaFloat($3,ini), "", ini);}
+									else{printf("\tError de tipo de variable\n");}	}
+								if(tipovar($1,ini)==2)	{
+									if(tipovar($3,ini)==2){
+										sobreescribirValor($1, 0, 0, retornaString($3,ini), ini);}
+									else	{printf("\tError de tipo de variable\n");}		}		}
+							else{	printf("\tError de sintaxis: La variable no existe\n");}
+						$$=$1;						
+						}	
+			}
 ;
+
 
 exp_printf:		PRINTF '(' nombre_var ')' {//esta funcion es util para ver los valores de determinada variable...
 					if(existe($3,ini)==1){
@@ -776,10 +812,30 @@ condicional:
 	}	
 
 	| IF '(' '('operacion_con_variable')'	'=' '='	'('operacion_con_variable')' ')'	{
+		if(($4==NULL)||($9==NULL)){printf("\tError en la expresión\n");}
+		else{
 			if		(	(tipovarNodo($4)==1) && (tipovarNodo($9)==1)	){	
 					if((*$4->t_float)==(*$9->t_float))	{	$$=1;	}
 					else { $$=0; }	}
-			else {	printf("\tError de variable\n"); $$=2;	}
+			else {	printf("\tError de variable\n"); $$=2;	}	}
+	}
+
+	| IF '(' '('operacion_con_variable')'	'>'	'('operacion_con_variable')' ')'	{
+		if(($4==NULL)||($8==NULL)){printf("\tError en la expresión\n");}
+		else{
+			if		(	(tipovarNodo($4)==1) && (tipovarNodo($8)==1)	){	
+					if((*$4->t_float)>(*$8->t_float))	{	$$=1;	}
+					else { $$=0; }	}
+			else {	printf("\tError de variable\n"); $$=2;	}	}
+	}
+
+	| IF '(' '('operacion_con_variable')'	'<'	'('operacion_con_variable')' ')'	{
+		if(($4==NULL)||($8==NULL)){printf("\tError en la expresión\n");}
+		else{
+			if		(	(tipovarNodo($4)==1) && (tipovarNodo($8)==1)	){	
+					if((*$4->t_float)<(*$8->t_float))	{	$$=1;	}
+					else { $$=0; }	}
+			else {	printf("\tError de variable\n"); $$=2;	}	}
 	}
 
 	| IF '(' exp_decimal	'=' '='	operacion_con_variable ')'	{
@@ -823,6 +879,50 @@ condicional:
 					else { $$=0; }	}
 			else {	printf("\tError de variable\n"); $$=2;	}
 	}
+
+	| IF '(' exp_entera	'=' '='	operacion_con_variable ')'	{
+			if		(tipovarNodo($6)==1)	{	
+					if($3==(*$6->t_float))	{	$$=1;	}
+					else { $$=0; }	}
+			else {	printf("\tError de variable\n"); $$=2;	}
+	}
+
+	| IF '(' operacion_con_variable	'=' '='	exp_entera ')'	{
+			if		(tipovarNodo($3)==1)	{	
+					if((*$3->t_float)==$6)	{	$$=1;	}
+					else { $$=0; }	}
+			else {	printf("\tError de variable\n"); $$=2;	}
+	}
+
+	| IF '(' exp_entera	'<'	operacion_con_variable ')'	{
+			if		(tipovarNodo($5)<1)	{	
+					if($3==(*$5->t_float))	{	$$=1;	}
+					else { $$=0; }	}
+			else {	printf("\tError de variable\n"); $$=2;	}
+	}
+
+	| IF '(' operacion_con_variable	'<'	exp_entera ')'	{
+			if		(tipovarNodo($3)==1)	{	
+					if((*$3->t_float)<$5)	{	$$=1;	}
+					else { $$=0; }	}
+			else {	printf("\tError de variable\n"); $$=2;	}
+	}
+
+	| IF '(' exp_entera	'>'	operacion_con_variable ')'	{
+			if		(tipovarNodo($5)>1)	{	
+					if($3==(*$5->t_float))	{	$$=1;	}
+					else { $$=0; }	}
+			else {	printf("\tError de variable\n"); $$=2;	}
+	}
+
+	| IF '(' operacion_con_variable	'>'	exp_entera ')'	{
+			if		(tipovarNodo($3)==1)	{	
+					if((*$3->t_float)>$5)	{	$$=1;	}
+					else { $$=0; }	}
+			else {	printf("\tError de variable\n"); $$=2;	}
+	}
+
+
 
 ;
 	
