@@ -1,6 +1,7 @@
 #ifndef STR_FILE
 #define STR_FILE
 #include <stdlib.h>
+#include <stdio.h>
 
 typedef struct nodo{
   unsigned char tipo;
@@ -10,6 +11,33 @@ typedef struct nodo{
   char * t_string;
   struct nodo *next;
 }Nodo;
+
+/*
+typedef struct nodote{
+  struct nodo;
+}Nodote;
+
+
+int agregarNodo(unsigned char tipo, char * nombre, int tamaño){
+  Nodo *
+
+
+}
+*/
+
+
+
+char * castea(int i){
+  char str[4];
+  sprintf(str, "%d", i);
+  printf("\n%s",str);
+}
+
+
+
+
+
+///////////////////////////////////////////////////////////////////antess
 
 int existe(char *,Nodo *);
 

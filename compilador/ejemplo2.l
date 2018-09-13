@@ -8,11 +8,12 @@ CAD \"(\\.|[^"\\])*\"
 
 POW ("P"|"p")("O"|"o")("W"|"w")
 PRINTF ("P"|"p")("R"|"r")("I"|"i")("N"|"n")("T"|"t")("F"|"f")
-
+/*    VAR [a-zA-Z"_"]([a-zA-Z0-9"_"])*     */
 INT ("I"|"i")("N"|"n")("T"|"t")
 FLOAT ("F"|"f")("L"|"l")("O"|"o")("A"|"a")("T"|"t")
 STRING ("S"|"s")("T"|"t")("R"|"r")("I"|"i")("N"|"n")("G"|"g")
 VAR [a-zA-Z"_"]([a-zA-Z0-9"_"])*
+
 
 IF ("I"|"i")("F"|"f")
 
@@ -70,6 +71,16 @@ IF ("I"|"i")("F"|"f")
                 //printf("Cierro paréntesis\n");
                 return (yytext[0]);
                 }
+                
+"["         	{
+                //printf("Abro paréntesis\n");
+                return (yytext[0]);
+                }
+
+"]"         	{
+                //printf("Cierro paréntesis\n");
+                return (yytext[0]);
+                }                
 
 ","         	{
                 //printf("Coma\n");
@@ -121,6 +132,7 @@ IF ("I"|"i")("F"|"f")
         yylval.texto = yytext;
 		return (PRINTF);
 		}
+		
 
 {INT}	{
 		//printf("Tipo Variable\n");
